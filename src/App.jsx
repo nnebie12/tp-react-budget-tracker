@@ -1,35 +1,47 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  const  Transaction = {
+  id: 'number',
+  title: 'string',
+  amount: 'number',
+  type: 'income' | 'expense',
+  date: 'string'
+}
+const [transactions, setTransactions] = useState([]);
+
+const addTransaction = (transaction) => {
+  setTransactions([...transactions, transaction]);
+
 }
 
+const handleAddTransaction = () => {
+  const newTransaction = {
+    id: Date.now(),
+    title: 'New Transaction',
+    amount: 100,
+    type: 'income' | 'expense',
+    date: new Date().toISOString()
+  };
+  addTransaction(newTransaction);
+};
+
+  return (
+    <div className="App">
+      <h1>Transaction List</h1>
+      <button onClick={handleAddTransaction}>Add Transaction</button>
+      <ul>
+        {transactions.map((transaction) => (
+          <li key={transaction.id}>
+            {transaction.title} - {transaction.amount} ({transaction.type})
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+
+
+}
 export default App
