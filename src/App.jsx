@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TransactionForm from './components/TransactionForm';
 
 function App() {
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState(() => {
+    const saved = localStorage.getItem('transactions');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+  }, [transactions]);
 
   const addTransaction = (newTransaction) => {
     setTransactions([newTransaction, ...transactions]);
+  };
+
+  const deleteTransaction = (id) => {
+    setTransactions(transactions.filter(t => t.id !== id));
   };
 
   const total = transactions.reduce((acc, item) => 
@@ -38,11 +49,24 @@ function App() {
                 <p className="text-gray-400 italic border-2 border-dashed p-4 rounded-xl text-center">Aucune transaction.</p>
               ) : (
                 transactions.map(t => (
-                  <div key={t.id} className="p-4 bg-white rounded-lg shadow-sm border-l-4 border-blue-500 flex justify-between items-center">
-                    <span className="font-medium text-gray-700">{t.title}</span>
-                    <span className={`font-bold ${t.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>
-                      {t.type === 'income' ? '+' : '-'}{t.amount.toFixed(2)}€
-                    </span>
+                  <div key={t.id} className="p-4 bg-white rounded-lg shadow-sm border-l-4 flex justify-between items-center group"
+                       style={{ borderLeftColor: t.type === 'income' ? '#10b981' : '#ef4444' }}>
+                    <div className="flex flex-col">
+                      <span className="font-medium text-gray-700">{t.title}</span>
+                      <span className="text-xs text-gray-400">{t.date}</span>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <span className={`font-bold ${t.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>
+                        {t.type === 'income' ? '+' : '-'}{t.amount.toFixed(2)}€
+                      </span>
+                      <button 
+                        onClick={() => deleteTransaction(t.id)}
+                        className="text-gray-300 hover:text-red-500 transition-colors"
+                        title="Supprimer"
+                      >
+                        ✕
+                      </button>
+                    </div>
                   </div>
                 ))
               )}
