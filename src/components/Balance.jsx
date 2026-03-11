@@ -1,3 +1,6 @@
+import React from 'react';
+import BudgetProgress from './BudgetProgress'; 
+
 function Balance({ transactions }) {
   const totalIncome = transactions.reduce((acc, t) => 
     t.type === 'income' ? acc + t.amount : acc - t.amount, 0
@@ -27,6 +30,7 @@ function Balance({ transactions }) {
           {finalBalance.toFixed(2)}€
         </p>
       </div>
+      <BudgetProgress transactions={transactions} />
     </div>
   );
 }
