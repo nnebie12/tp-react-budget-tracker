@@ -71,6 +71,7 @@ function App() {
             <TransactionList 
               transactions={sortedAndFiltered} 
               onDeleteTransaction={deleteTransaction} 
+              
             />
           </section>
         </div>
