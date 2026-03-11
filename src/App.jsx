@@ -5,16 +5,20 @@ import Balance from './components/Balance';
 import Filter from './components/Filter';
 
 function App() {
+
   const [transactions, setTransactions] = useState(() => {
-    const saved = localStorage.getItem('transactions');
-    return saved ? JSON.parse(saved) : [];
+    const savedData = localStorage.getItem('transactions');
+    
+    return savedData ? JSON.parse(savedData) : [];
   });
 
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     localStorage.setItem('transactions', JSON.stringify(transactions));
-  }, [transactions]);
+  }, 
+  [transactions]
+);
 
   const addTransaction = (newTransaction) => {
     setTransactions([newTransaction, ...transactions]);
