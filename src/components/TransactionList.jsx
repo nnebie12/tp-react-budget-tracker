@@ -1,6 +1,6 @@
 import TransactionItem from './TransactionItem';
 
-function TransactionList({ transactions, onDeleteTransaction }) {
+function TransactionList({ transactions, onDeleteTransaction, onEditTransaction }) {
   return (
     <div className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
       <div className="overflow-x-auto">
@@ -27,6 +27,7 @@ function TransactionList({ transactions, onDeleteTransaction }) {
                   key={t.id} 
                   transaction={t} 
                   onDelete={onDeleteTransaction} 
+                  onEdit={onEditTransaction} 
                 />
               ))
             )}

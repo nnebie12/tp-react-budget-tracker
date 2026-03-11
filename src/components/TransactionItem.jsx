@@ -1,4 +1,4 @@
-function TransactionItem({ transaction, onDelete }) {
+function TransactionItem({ transaction, onDelete, onEdit }) {
   const { id, title, amount, type, date } = transaction;
 
   return (
@@ -14,6 +14,13 @@ function TransactionItem({ transaction, onDelete }) {
         </span>
       </td>
       <td className="px-6 py-4 text-right">
+      <button 
+          onClick={() => onEdit(id)}
+          className="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition-all"
+          title="Modifier"
+        >
+          ✏️
+        </button>
         <button 
           onClick={() => onDelete(id)}
           className="text-red-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition-all"
